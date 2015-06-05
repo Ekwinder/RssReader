@@ -1,17 +1,35 @@
+"""
+I had previously created a web scraper in python(using beautiful soup) but
+never a RSS reader. It tool me around 6 hours and some help from the
+internet to do so.
+"""
+
+# Resources used for this application-
 # https://docs.python.org/2/library/xml.dom.html
 # http://www.diveintopython.net/xml_processing/attributes.html
-
+# http://www.learningpython.com/2006/01/14/rss-reader-part-one/#more-9
 
 import urllib2
 from xml.dom import minidom, Node
 
+# this function scrapes the xml and returns a list of 
+# required items.
 def GetRSS(RSSurl):
 	try:
+		# open the url
 		url_info=urllib2.urlopen(RSSurl)
 
+		# parse the xml
 		xmldoc = minidom.parse(url_info)
+
 		outlist = []
+		# this is the root node of the xml document
 		rootNode = xmldoc.documentElement	
+
+		# now for any node in rootnode we have to find
+		# if any children is equal to 'item', and if it
+		# is we find the 'title', 'description', 'story link'
+		# and 'date of publish' and store them in a list
 		for anode in rootNode.childNodes:
 			for node in anode.childNodes: 
 				inlist = []
@@ -62,6 +80,7 @@ def GetRSS(RSSurl):
 				outlist.append(inlist)
 				inlist = []
 		return outlist
+	# exception is raised if the file cannot be parsed
 	except:
 		exceptlist = []
 		anslist = []

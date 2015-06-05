@@ -1,5 +1,10 @@
+"""
+This is the python backend processing file. It simply
+contains one class Index
+"""
 import web
 import IngiteRSS
+
 urls = (
   '/', 'Index',
 )
@@ -11,6 +16,9 @@ class Index(object):
     def GET(self):
         return render.index([])
     def POST(self):
+    	# we take input from the form and parse the xml
+    	# and according to the url return the list to the 
+    	# interface
     	form = web.input(url='http://feeds.bbci.co.uk/news/rss.xml')
     	url = str(form.url)
     	alist = IngiteRSS.GetRSS(url)
